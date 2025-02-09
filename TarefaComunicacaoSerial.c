@@ -131,6 +131,7 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
     }
 }
 
+//funções para utilização da matriz de led 
 static inline void put_pixel(uint32_t pixel_grb)
 {
     pio_sm_put_blocking(pio0, 0, pixel_grb << 8u);
@@ -141,7 +142,7 @@ static inline uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b)
     return ((uint32_t)(r) << 8) | ((uint32_t)(g) << 16) | (uint32_t)(b);
 }
 
-
+// função que exibe numeros na matriz de led 
 void set_one_led(uint8_t r, uint8_t g, uint8_t b, int numb)
 {
     // Define a cor com base nos parâmetros fornecidos
@@ -207,6 +208,18 @@ int main() {
         if (stdio_usb_connected()) { // Certifica-se de que o USB está conectado
             char c;
             if (scanf(" %c", &c) == 1) {  // O espaço antes do %c ignora espaços em branco e '\n'
+                // Verifica o caso de ';' para limpar e desenhar no display
+                if (c == ';'){
+                    ssd1306_fill(&ssd, !cor); // Limpa o display
+                    ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); // Desenha um retângulo
+                    ssd1306_draw_string(&ssd, "a b c d e f g", 8, 10);
+                    ssd1306_draw_string(&ssd, "h i j k l m n", 8, 22);
+                    ssd1306_draw_string(&ssd, "o p q u v x y", 8, 34);
+                    ssd1306_draw_string(&ssd, "z", 60, 48);
+                    ssd1306_send_data(&ssd); // Atualiza o display
+                }
+    
+                // Controle das LEDs
                 switch (c) {
                     case '0': set_one_led(led_r, led_g, led_b, 0); break;
                     case '1': set_one_led(led_r, led_g, led_b, 1); break;
@@ -220,14 +233,17 @@ int main() {
                     case '9': set_one_led(led_r, led_g, led_b, 9); break;
                 }
     
-                // Código de desenho sempre executa
+                // Código de desenho sempre executa se c for diferente de ;
+                if (c != ';'){
                 ssd1306_fill(&ssd, !cor); // Limpa o display
                 ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); // Desenha um retângulo
-                ssd1306_draw_char(&ssd, c, 60, 30);
-                ssd1306_send_data(&ssd);
+                ssd1306_draw_char(&ssd, c, 60, 30); // Exibe a letra no centro
+                ssd1306_send_data(&ssd); // Atualiza o display
+                }
             }
         }
     }
+    
     
 
     return 0;
