@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'build/Tarefa_ComunicacaoSerial.uf2'
+elf = 'build/Tarefa_ComunicacaoSerial.elf'
