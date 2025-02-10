@@ -98,7 +98,7 @@ bool matrixLED[10][NUM_PIXELS] = {
 void gpio_irq_handler(uint gpio, uint32_t events) {
     uint32_t current_time = to_us_since_boot(get_absolute_time());
 
-    if (current_time - last_time > 300000) { // 200ms de debouncing
+    if (current_time - last_time > 300000) { // 300ms de debouncing
         last_time = current_time;
 
         ssd1306_fill(&ssd, !cor);
@@ -172,6 +172,7 @@ int main() {
 
     TarefaComunicacaoSerial_program_init(pio, sm, offset, matrixRGB_PIN, 800000, IS_RGBW);
 
+    // inicialização de ambos os leds e botões
     gpio_init(LEDG_PIN);              
     gpio_set_dir(LEDG_PIN, GPIO_OUT);
 
@@ -186,10 +187,9 @@ int main() {
     gpio_set_dir(button_1, GPIO_IN);
     gpio_pull_up(button_1);
 
+    //inicialização da interrupção para os dois botões
     gpio_set_irq_enabled_with_callback(button_0, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
     gpio_set_irq_enabled_with_callback(button_1, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
-    
-    stdio_init_all();
 
     i2c_init(I2C_PORT, 400 * 1000);
     gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);
@@ -214,8 +214,8 @@ int main() {
                     ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); // Desenha um retângulo
                     ssd1306_draw_string(&ssd, "a b c d e f g", 8, 10);
                     ssd1306_draw_string(&ssd, "h i j k l m n", 8, 22);
-                    ssd1306_draw_string(&ssd, "o p q u v x y", 8, 34);
-                    ssd1306_draw_string(&ssd, "z", 60, 48);
+                    ssd1306_draw_string(&ssd, "o p q r s t u", 8, 34);
+                    ssd1306_draw_string(&ssd, "v w x y z", 16, 48);
                     ssd1306_send_data(&ssd); // Atualiza o display
                 }
     
