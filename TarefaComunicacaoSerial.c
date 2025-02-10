@@ -215,7 +215,7 @@ int main() {
                     ssd1306_draw_string(&ssd, "a b c d e f g", 8, 10);
                     ssd1306_draw_string(&ssd, "h i j k l m n", 8, 22);
                     ssd1306_draw_string(&ssd, "o p q r s t u", 8, 34);
-                    ssd1306_draw_string(&ssd, "v w x y z", 16, 48);
+                    ssd1306_draw_string(&ssd, "v w x y z", 25, 48);
                     ssd1306_send_data(&ssd); // Atualiza o display
                 }
     
