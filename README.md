@@ -1,4 +1,4 @@
-# Projeto: Interfaces de Comunicação Serial
+# Tarefa 02/03 - Interfaces de Comunicação Serial
 
 Este projeto tem como objetivo explorar a comunicação serial no microcontrolador RP2040 utilizando a placa de desenvolvimento BitDogLab. Serão utilizadas as interfaces UART e I2C para exibição de caracteres em um display SSD1306 e interação com LEDs e botões físicos.
 
